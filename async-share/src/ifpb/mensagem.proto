@@ -1,0 +1,16 @@
+syntax="proto3";
+
+option java_multiple_files = true;
+
+package ifpb;
+
+
+mensagem Mensagem {
+    string id = 1;
+    string text = 2;
+}
+
+mensagem Resultado {
+    string id = 1;
+    string hash = 2;
+}

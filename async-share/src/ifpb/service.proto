@@ -1,0 +1,20 @@
+syntax="proto3";
+option java_package = "ifpb";
+option java_multiple_files = true;
+
+import "mensagem.proto";
+
+
+
+service EnviarMensagem {
+    rpc enviar(Mensagem) returns (Resultado);
+}
+
+service ReceberMensagem {
+    rpc receber(Mensagem) returns (Resultado);
+}
+
+service ExibirMensagem{
+    rpc print(Mensagem) returns (Resultado);
+}
+
