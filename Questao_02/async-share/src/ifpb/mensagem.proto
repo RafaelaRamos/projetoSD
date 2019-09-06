@@ -5,11 +5,11 @@ option java_package = "ifpb";
 
 
 message Mensagem {
-    required string id = 1;
-    required string text = 2;
+    string id = 1;
+    string text = 2;
 }
 
 message Resultado {
-    required string id = 1;
-    required string hash = 2;
+    string id = 1;
+    string hash = 2;
 }
