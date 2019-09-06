@@ -1,0 +1,17 @@
+version: "3.3"
+services:
+    serverapp:
+        build: ./async-serverapp/
+        container_name: serverapp
+        networks:
+        - network
+    clientapp:
+        build: ./async-clientapp/
+        container_name: clientapp
+        depends_on:
+            - serverapp
+        networks:
+            - network
+networks:
+  network:
+    driver: bridge
