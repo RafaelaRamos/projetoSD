@@ -18,9 +18,9 @@
   </build>
     <dependencies>
         <dependency>
-            <groupId>async-share</groupId>
-            <artifactId>async-share</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.ifpb.edu</groupId>
+            <artifactId>async-shared</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

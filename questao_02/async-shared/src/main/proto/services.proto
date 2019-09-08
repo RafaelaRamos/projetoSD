@@ -4,12 +4,18 @@ option java_multiple_files = true;
 option java_package = "ifpb.grpc";
 
 
-message Mensagem {
+message Requisicao {
     string id = 1;
     string text = 2;
 }
 
-message Resultado {
+message Resposta {
     string id = 1;
     string hash = 2;
 }
+
+service Service {
+    rpc sendResponse(Requisicao) returns (Resposta);
+}
+
+
