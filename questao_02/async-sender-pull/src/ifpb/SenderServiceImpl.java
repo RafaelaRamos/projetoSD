@@ -11,6 +11,8 @@ import ifpb.grpc.ServiceGrpc.ServiceImplBase;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author rafaela
@@ -18,6 +20,7 @@ import io.grpc.stub.StreamObserver;
 public class SenderServiceImpl  extends ServiceImplBase{
     	private final ManagedChannel channel;
 	private ServiceGrpc.ServiceStub  receiver;
+         private static int tentativa =3;
 
     public SenderServiceImpl() {
         this.channel = ManagedChannelBuilder.forAddress("localhost", 9941)
@@ -40,7 +43,20 @@ public class SenderServiceImpl  extends ServiceImplBase{
 
 			@Override
 			public void onError(Throwable throwable) {
-				responseObserver.onError(throwable);
+                              if(tentativa!=0){
+				 try {
+                                     
+                                Thread.sleep(2000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SenderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+				receiver.sendResponse(request, this);
+			}
+                            else{
+                            
+                            throwable.printStackTrace();
+                            }
+                            tentativa--;
 			}
 
 			@Override
