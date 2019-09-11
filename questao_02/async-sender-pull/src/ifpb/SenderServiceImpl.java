@@ -11,13 +11,13 @@ import ifpb.grpc.ServiceGrpc.ServiceImplBase;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-/**
- *
- * @author rafaela
- */
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class SenderServiceImpl  extends ServiceImplBase{
     	private final ManagedChannel channel;
 	private ServiceGrpc.ServiceStub  receiver;
+         private static int tentativa =3;
 
     public SenderServiceImpl() {
         this.channel = ManagedChannelBuilder.forAddress("localhost", 9941)
@@ -31,21 +31,35 @@ public class SenderServiceImpl  extends ServiceImplBase{
             
             receiver.sendResponse(request, new StreamObserver<Resposta>() {
 
-			private Resposta result;
+			private Resposta resposta;
 
 			@Override
 			public void onNext(Resposta res) {
-				this.result = res;
+				this.resposta = res;
 			}
 
 			@Override
 			public void onError(Throwable throwable) {
-				responseObserver.onError(throwable);
+                              if(tentativa!=0){
+                                 
+				 try {
+                                     
+                                Thread.sleep(2000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SenderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+				receiver.sendResponse(request, this);
+			}
+                            else{
+                            
+                            throwable.printStackTrace();
+                            }
+                            tentativa--;
 			}
 
 			@Override
 			public void onCompleted() {
-				responseObserver.onNext(result);
+				responseObserver.onNext(resposta);
 				responseObserver.onCompleted();
 			}
 		});

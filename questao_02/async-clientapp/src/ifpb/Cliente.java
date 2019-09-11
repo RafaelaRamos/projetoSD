@@ -11,19 +11,41 @@ import ifpb.grpc.Resposta;
 import ifpb.grpc.ServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author rafaela
- */
 public class Cliente {
 
-   private static void sendAndResultMessage(String id, String text,ServiceGrpc.ServiceFutureStub futureStub ) throws InterruptedException, ExecutionException{
+   private static void sendAndResultMessage(String id, String text,ServiceGrpc.ServiceStub stub ) throws InterruptedException, ExecutionException{
                 Requisicao req = Requisicao.newBuilder().setId(id).setText(text).build();
-		while(true){
+                System.out.println("mandando mensagem");
+                stub.sendResponse(req, new StreamObserver<Resposta> () {
+
+			private Resposta resultado;
+
+			@Override
+			public void onNext(Resposta res) {
+				this.resultado = res;
+			}
+
+			@Override
+			public void onError(Throwable throwable) {
+				
+                             System.out.println("Servidor nao recebeu sua  mensagem");
+			}
+
+			@Override
+			public void onCompleted() {
+				System.out.println("Mensagem recebida"+resultado.getHash());
+			}
+		});
+
+    }
+   
+    //utilizando listenableFuture 
+		/*while(true){
 			//
 			Thread.sleep(2000);
 			//
@@ -35,13 +57,13 @@ public class Cliente {
 			else {
 				System.out.println("Recebido resultado para mensagem "+ fut.get().getId() + fut.get().getHash());
 				break;
-			}
-		}
-   }
+			}*/
+		//}
+  // }
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 10999).usePlaintext().build();
-	ServiceGrpc.ServiceFutureStub futureStub = ServiceGrpc.newFutureStub(channel);
+	ServiceGrpc.ServiceStub stub = ServiceGrpc.newStub(channel);
         String id ="askjdlkasjd";
         String text ="Hello World";
       
@@ -55,23 +77,40 @@ public class Cliente {
 			Thread t = new Thread(){
 				public void run() {
 					
+                                   
+                                  
                                     try {
-                                        sendAndResultMessage(ix, mx, futureStub);
+                                        sendAndResultMessage(ix, mx, stub);
                                     } catch (InterruptedException ex) {
                                         Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
                                     } catch (ExecutionException ex) {
                                         Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
                                     }
-					
-					
-				};
-			};
-			t.start();
-		}
+                                      
+                                    } 
+                                    };
+                                   
+				 t.start();	
+				
+			 };
+                         while(true){
+                             
+                            
+                         }
+
+
     }
+    
+    
+}
+			
+		
+                 
+               
+    
  
 	
 		
 		
-}
+
 

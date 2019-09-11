@@ -9,10 +9,7 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import java.io.IOException;
 
-/**
- *
- * @author rafaela
- */
+
 public class ServerMain {
 
     /**
