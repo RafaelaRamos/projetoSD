@@ -9,10 +9,7 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import java.io.IOException;
 
-/**
- *
- * @author rafaela
- */
+
 public class NewMain {
 
     /**
@@ -21,7 +18,7 @@ public class NewMain {
     public static void main(String[] args) throws IOException, InterruptedException {
        System.out.println("Servico de envio Inicializado...");
 
-		//inicializar o serviço para sender
+		
 		Server serverSender = ServerBuilder.forPort(10999)
 				.addService(new SenderServiceImpl())
 				.build();

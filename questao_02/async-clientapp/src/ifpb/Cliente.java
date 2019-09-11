@@ -16,10 +16,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author rafaela
- */
 public class Cliente {
 
    private static void sendAndResultMessage(String id, String text,ServiceGrpc.ServiceStub stub ) throws InterruptedException, ExecutionException{
@@ -47,6 +43,8 @@ public class Cliente {
 		});
 
     }
+   
+    //utilizando listenableFuture 
 		/*while(true){
 			//
 			Thread.sleep(2000);
@@ -97,7 +95,7 @@ public class Cliente {
 			 };
                          while(true){
                              
-                             int k =+1;
+                            
                          }
 
 

@@ -9,15 +9,10 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import java.io.IOException;
 
-/**
- *
- * @author rafaela
- */
+
 public class ReceiverMain {
 
-    /**
-     * @param args the command line arguments
-     */
+  
     public static void main(String[] args) throws IOException, InterruptedException {
          System.out.println("Servico de recebimento inicializado ");
 

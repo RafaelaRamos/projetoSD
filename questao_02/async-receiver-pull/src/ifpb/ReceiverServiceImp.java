@@ -15,10 +15,7 @@ import io.grpc.stub.StreamObserver;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author rafaela
- */
+
 public class ReceiverServiceImp extends ServiceImplBase {
     	private final ManagedChannel channel;
 	private ServiceGrpc.ServiceStub  receiver;
@@ -36,11 +33,11 @@ public class ReceiverServiceImp extends ServiceImplBase {
             
             receiver.sendResponse(request, new StreamObserver<Resposta>() {
 
-			private Resposta result;
+			private Resposta resposta;
 
 			@Override
 			public void onNext(Resposta res) {
-				this.result = res;
+				this.resposta = res;
 			}
 
 			@Override
@@ -63,7 +60,7 @@ public class ReceiverServiceImp extends ServiceImplBase {
 
 			@Override
 			public void onCompleted() {
-				responseObserver.onNext(result);
+				responseObserver.onNext(resposta);
 				responseObserver.onCompleted();
 			}
 		});
